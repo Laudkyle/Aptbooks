@@ -9,6 +9,8 @@ import GDPRPage from "./components/Gdpr";
 import TermsOfServicePage from "./components/Terms";
 import PrivacyPolicyPage from "./components/Privacy";
 import SecurityPage from "./components/Security";
+import AboutPage from "./components/About";
+import CareersPage from "./components/Careers";
 
 function Pages() {
   return (
@@ -24,6 +26,8 @@ function Pages() {
       <Route path="/terms" element={<TermsOfServicePage />} />
       <Route path="/security" element={<SecurityPage />} />
       <Route path="/privacy" element={<PrivacyPolicyPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/careers" element={<CareersPage />} />
     </Routes>
   );
 }
