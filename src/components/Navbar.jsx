@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("");
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const path = location.pathname;
     if (path.includes("solutions")) setActiveTab("solutions");
     else if (path.includes("pricing")) setActiveTab("pricing");
     else if (path.includes("resources")) setActiveTab("resources");
+    else if (path.includes("about")) setActiveTab("about us");
     else setActiveTab("features");
   }, [location.pathname]);
 
@@ -19,6 +22,7 @@ const Navbar = () => {
     { name: "Solutions", path: "/solutions" },
     { name: "Pricing", path: "/pricing" },
     { name: "Resources", path: "/resources" },
+    { name: "About Us", path: "/about" },
   ];
 
   return (
@@ -26,7 +30,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center overflow-hidden">
+            <Link
+              to="/"
+              className="flex-shrink-0 flex items-center overflow-hidden"
+            >
               <img className="h-16 w-32" src="/logo.png" alt="AptBooks" />
             </Link>
             <div className="hidden md:ml-10 md:flex md:space-x-8">
@@ -46,20 +53,35 @@ const Navbar = () => {
               ))}
             </div>
           </div>
-          <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/register"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-            >
-              Try for Free
-            </Link>
-          </div>
+          {user && user.email ? (
+            <div className="hidden md:flex items-center space-x-4">
+              <div className="">{user.email}</div>
+              <button
+                onClick={() => {
+                  logout();
+                }}
+                className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center space-x-4">
+              <Link
+                to="/login"
+                className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="https://app.ryamex.com/"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+              >
+                Try for Free
+              </Link>
+            </div>
+          )}
+
           <div className="-mr-2 flex items-center md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -74,7 +96,12 @@ const Navbar = () => {
                 stroke="currentColor"
                 aria-hidden="true"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
           </div>
@@ -103,18 +130,34 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="mt-4 pt-4 border-t border-gray-200 px-5">
-              <Link
-                to="/login"
-                className="text-gray-500 hover:text-gray-900 block py-2 text-sm font-medium"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/register"
-                className="mt-2 inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                Try for Free
-              </Link>
+              {!user || !user.email ? (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-gray-500 hover:text-gray-900 block py-2 text-sm font-medium"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="https://app.ryamex.com"
+                    className="mt-2 inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                  >
+                    Try for Free
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <span className="text-gray-700 block py-2 text-sm font-medium">
+                    Welcome, {user.email}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="mt-2 inline-block text-gray-500 hover:text-gray-900 text-sm font-medium"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

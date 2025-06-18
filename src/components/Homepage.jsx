@@ -92,7 +92,7 @@ const Homepage = () => {
               <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
                 <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                   <Link
-                    to="/register"
+                    to="https://app.ryamex.com"
                     className="flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-8"
                   >
                     Start Free Trial
@@ -385,7 +385,7 @@ const Homepage = () => {
                   anytime.
                 </p>
                 <Link
-                  to="/register"
+                  to="https://app.ryamex.com"
                   className="mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-blue-50"
                 >
                   Sign up for free

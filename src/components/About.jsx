@@ -202,7 +202,7 @@ const AboutPage = () => {
           <div className="mt-8 flex justify-center">
             <div className="inline-flex rounded-md shadow">
               <Link
-                to="/register"
+                to="https://app.ryamex.com"
                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50"
               >
                 Start Free Trial

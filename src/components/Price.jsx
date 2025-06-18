@@ -141,7 +141,7 @@ const PricingPage = () => {
               </div>
               <div className="border-t border-gray-200 bg-gray-50 px-6 py-4 rounded-b-2xl">
                 <Link
-                  to={plan.cta === "Contact Sales" ? "/contact" : "/register"}
+                  to={plan.cta === "Contact Sales" ? "/contact" : "https://app.ryamex.com"}
                   className={`block w-full py-3 px-6 text-center rounded-md border border-transparent text-base font-medium ${plan.popular ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'}`}
                 >
                   {plan.cta}
@@ -388,7 +388,7 @@ const PricingPage = () => {
             No credit card required. Cancel anytime.
           </p>
           <Link
-            to="/register"
+            to="https://app.ryamex.com"
             className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 sm:w-auto"
           >
             Sign up for free

@@ -411,7 +411,7 @@ const ResourcesPage = () => {
             </div>
             <div className="ml-3 inline-flex">
               <Link
-                to="/register"
+                to="https://app.ryamex.com"
                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900"
               >
                 Start Free Trial

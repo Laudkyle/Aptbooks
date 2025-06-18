@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from 'react-icons/fa';
+import { useAuth } from './AuthContext';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const { login, setUser,user} = useAuth();
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -42,9 +44,13 @@ const LoginPage = () => {
     setIsLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+     const response = await login({form:formData})
       // On successful login, redirect to dashboard
-      navigate('/dashboard');
+if (response.success){
+  setUser(response.user)
+}
+console.log(user)
+      navigate('/');
     } catch (error) {
       setErrors({ submit: 'Invalid email or password' });
     } finally {
@@ -208,7 +214,7 @@ const LoginPage = () => {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{' '}
-            <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link to="https://app.ryamex.com" className="font-medium text-blue-600 hover:text-blue-500">
               Start your free trial
             </Link>
           </p>
