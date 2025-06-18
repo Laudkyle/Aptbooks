@@ -13,6 +13,8 @@ import AboutPage from "./components/About";
 import CareersPage from "./components/Careers";
 import HelpCenterPage from "./components/Help";
 import PageNotFound from "./components/NotFound";
+import RegisterPage from "./components/Register";
+import LoginPage from "./components/login";
 
 function Pages() {
   return (
@@ -30,6 +32,8 @@ function Pages() {
       <Route path="/privacy" element={<PrivacyPolicyPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/careers" element={<CareersPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/Help Center" element={<HelpCenterPage />} />
       <Route path="/mobile" element={<PageNotFound isMaintenance={true} />} />
       <Route path="/blog" element={<PageNotFound isMaintenance={true} />} />

@@ -141,7 +141,7 @@ const CareersPage = () => {
           </p>
           <div className="mt-8">
             <Link
-              to="mailto:joekay0976@gmail.com?subject=Future Opportunities"
+              to="mailto:aptbookvps@gmail.com?subject=Future Opportunities"
               className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-blue-50"
             >
               Get in Touch

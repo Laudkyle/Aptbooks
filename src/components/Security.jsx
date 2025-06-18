@@ -216,7 +216,7 @@ const SecurityPage = () => {
           </p>
           <div className="mt-8">
             <Link
-              to="mailto:joekay0976@gmail.com"
+              to="mailto:aptbookvps@gmail.com"
               className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
             >
               Contact Security Team

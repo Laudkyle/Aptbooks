@@ -25,7 +25,7 @@ const ContactPage = () => {
       description: "Send us your questions",
       details: "support@aptbooks.com",
       action: "Send Email",
-      link: "mailto:joekay0976@gmail.com"
+      link: "mailto:aptbookvps@gmail.com"
     }
   ];
 
