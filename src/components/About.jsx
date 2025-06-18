@@ -46,8 +46,8 @@ const AboutPage = () => {
     image: "https://randomuser.me/api/portraits/men/44.jpg"
   },
   {
-    name: "Abraham Boakye",
-    role: "Lead Developer",
+    name: "Abraham Yiadom Boakye",
+    role: "Chief Technology Officer",
     bio: "Abraham heads our engineering team, designing and maintaining the platform’s core systems. His expertise ensures AptBooks is secure, scalable, and developer-friendly.",
     image: "https://randomuser.me/api/portraits/men/75.jpg"
   },

@@ -247,7 +247,7 @@ const Homepage = () => {
                     Businesses
                   </p>
                   <p className="text-3xl font-extrabold tracking-tight text-blue-600">
-                    5,000+
+                    50+
                   </p>
                 </div>
 
