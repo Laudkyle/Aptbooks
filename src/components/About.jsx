@@ -37,11 +37,11 @@ const AboutPage = () => {
     name: "Isaac Baffour Awuah",
     role: "CEO",
     bio: "Isaac leads the vision and strategy at AptBooks, driving innovation and growth. With over 20 years in financial technology, he’s committed to making accounting simple and accessible for businesses across Africa.",
-    image: "https://randomuser.me/api/portraits/men/32.jpg"
+    image: "/audit.png"
   },
   {
     name: "Constant Ekow Takyi",
-    role: "Managing Director",
+    role: "Head of Finance, Administration, and Business Development",
     bio: "Constant manages operations and ensures seamless execution across teams. His leadership ensures AptBooks delivers value through efficiency and strong market alignment.",
     image: "https://randomuser.me/api/portraits/men/44.jpg"
   },
@@ -49,7 +49,7 @@ const AboutPage = () => {
     name: "Abraham Yiadom Boakye",
     role: "Chief Technology Officer",
     bio: "Abraham heads our engineering team, designing and maintaining the platform’s core systems. His expertise ensures AptBooks is secure, scalable, and developer-friendly.",
-    image: "https://randomuser.me/api/portraits/men/75.jpg"
+    image: "ab.png"
   },
   {
     name: "Rosemond Asante Osei",
