@@ -6,6 +6,7 @@ const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
   const { user, logout } = useAuth();
 
   useEffect(() => {
@@ -17,6 +18,14 @@ const Navbar = () => {
     else setActiveTab("features");
   }, [location.pathname]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const navLinks = [
     { name: "Features", path: "/" },
     { name: "Solutions", path: "/solutions" },
@@ -26,92 +35,99 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link
-              to="/"
-              className="flex-shrink-0 flex items-center overflow-hidden"
-            >
-              <img className="h-16 w-32" src="/logo.png" alt="AptBooks" />
-            </Link>
-            <div className="hidden md:ml-10 md:flex md:space-x-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setActiveTab(link.name.toLowerCase())}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                    activeTab === link.name.toLowerCase()
-                      ? "border-blue-500 text-gray-900"
-                      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
+    <header
+      className={`fixed top-4 left-4 right-4 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white/90 backdrop-blur-md shadow-lg" : "bg-white/90 backdrop-blur-md  md:bg-transparent"
+      } rounded-2xl`}
+    >
+      <div className="px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-200 to-blue-700 rounded-xl flex items-center justify-center">
+            {/* <span className="text-white font-bold text-lg">A</span> */}
+            <img src="/logo.png" alt="" />
           </div>
+          <span className="text-xl font-bold text-gray-900">AptBooks</span>
+        </Link>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center space-x-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              onClick={() => setActiveTab(link.name.toLowerCase())}
+              className={`text-gray-600 hover:text-blue-600 transition-colors font-medium ${
+                activeTab === link.name.toLowerCase() ? "text-blue-600" : ""
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+          {/* Desktop Contact */}
+          <span className="hidden md:inline-block text-sm bg-blue-100 px-3 py-2 rounded-3xl text-blue-700">
+            +233 555 866 711
+          </span>
+
           {user && user.email ? (
-            <div className="hidden md:flex items-center space-x-4">
-              <div className="">{user.email}</div>
+            <>
+              <span className="text-gray-600">{user.email}</span>
               <button
-                onClick={() => {
-                  logout();
-                }}
-                className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+                onClick={logout}
+                className="text-gray-600 hover:text-red-500 font-medium"
               >
                 Logout
               </button>
-            </div>
+            </>
           ) : (
-            <div className="hidden md:flex items-center space-x-4">
+            <>
               <Link
                 to="/login"
-                className="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+                className="text-gray-600 hover:text-blue-600 transition-colors"
               >
                 Sign In
               </Link>
               <Link
-                to="https://app.ryamex.com/"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                to="https://app.aptbooks.com/"
+                className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors"
               >
                 Try for Free
               </Link>
-            </div>
+            </>
           )}
+        </nav>
 
-          <div className="-mr-2 flex items-center md:hidden">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none"
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-md text-gray-600 hover:text-blue-600 focus:outline-none"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="block h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={
+                  mobileMenuOpen
+                    ? "M6 18L18 6M6 6l12 12"
+                    : "M4 6h16M4 12h16M4 18h16"
+                }
+              />
+            </svg>
+          </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden">
-          <div className="pt-2 pb-3 space-y-1">
+        <div className="md:hidden px-6 pb-4">
+          <div className="space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -120,49 +136,50 @@ const Navbar = () => {
                   setActiveTab(link.name.toLowerCase());
                   setMobileMenuOpen(false);
                 }}
-                className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                className={`block text-base font-medium ${
                   activeTab === link.name.toLowerCase()
-                    ? "bg-blue-50 border-blue-500 text-blue-700"
-                    : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-blue-600"
                 }`}
               >
                 {link.name}
               </Link>
             ))}
-            <div className="mt-4 pt-4 border-t border-gray-200 px-5">
-              {!user || !user.email ? (
+            <div className="pt-4 border-t border-gray-200">
+              {user && user.email ? (
+                <>
+                  <span className="block text-gray-600">{user.email}</span>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block mt-2 text-gray-600 hover:text-red-500"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
                 <>
                   <Link
                     to="/login"
-                    className="text-gray-500 hover:text-gray-900 block py-2 text-sm font-medium"
+                    className="block text-gray-600 hover:text-blue-600"
                   >
                     Sign In
                   </Link>
                   <Link
-                    to="https://app.ryamex.com"
-                    className="mt-2 inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                    to="https://app.aptbooks.com"
+                    className="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-full text-center hover:bg-blue-700 transition"
                   >
                     Try for Free
                   </Link>
-                </>
-              ) : (
-                <>
-                  <span className="text-gray-700 block py-2 text-sm font-medium">
-                    Welcome, {user.email}
-                  </span>
-                  <button
-                    onClick={handleLogout}
-                    className="mt-2 inline-block text-gray-500 hover:text-gray-900 text-sm font-medium"
-                  >
-                    Logout
-                  </button>
                 </>
               )}
             </div>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 

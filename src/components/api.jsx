@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create Axios instance
 const API = axios.create({
-  baseURL: "https://app.ryamex.com/api/api",
+  baseURL: "https://app.aptbooks.com/api/api",
   withCredentials: true, // Important for HttpOnly cookies
 });
 
@@ -63,7 +63,7 @@ API.interceptors.response.use(
         // Try refreshing the token
         console.log("Attempting token refresh...");
         const refreshResponse = await axios.post(
-          `https://app.ryamex.com/api/api/refresh`,
+          `https://app.aptbooks.com/api/api/refresh`,
           {},
           { withCredentials: true }
         );

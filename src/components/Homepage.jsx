@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   FaChartLine,
   FaReceipt,
@@ -6,402 +7,533 @@ import {
   FaFileInvoiceDollar,
   FaMoneyBillWave,
   FaMobileAlt,
+  FaCloud,
+  FaDesktop,
+  FaCheckCircle,
+  FaTimes,
+  FaArrowRight,
+  FaStar,
+  FaPlay,
+  FaShieldAlt,
+  FaClock,
+  FaGlobe,
+  FaUser,
+  FaCalculator,
 } from "react-icons/fa";
-import PricingSection from "./Pricing";
-import { Link } from "react-router-dom";
+import { FaWarehouse } from "react-icons/fa6";
 
 const Homepage = () => {
-  const features = [
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showDemoForm, setShowDemoForm] = useState(false);
+  const [demoFormData, setDemoFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    phone: "",
+    message: "",
+  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleDemoSubmit = (e) => {
+    e.preventDefault();
+    // Create mailto link
+    const subject = encodeURIComponent(
+      "Demo Request from " + demoFormData.name
+    );
+    const body = encodeURIComponent(
+      `Name: ${demoFormData.name}\n` +
+        `Email: ${demoFormData.email}\n` +
+        `Company: ${demoFormData.company}\n` +
+        `Phone: ${demoFormData.phone}\n` +
+        `Message: ${demoFormData.message}`
+    );
+    window.location.href = `mailto:aptbookvps@gmail.com?subject=${subject}&body=${body}`;
+    setFormSubmitted(true);
+    setTimeout(() => {
+      setShowDemoForm(false);
+      setFormSubmitted(false);
+      setDemoFormData({
+        name: "",
+        email: "",
+        company: "",
+        phone: "",
+        message: "",
+      });
+    }, 2000);
+  };
+const features = [
+  {
+    icon: <FaUsers className="text-2xl" />,
+    title: "Customer & Supplier Management",
+    description:
+      "Easily manage customers, suppliers, and groups with contact-level tracking and insights.",
+    color: "bg-blue-500",
+  },
+  {
+    icon: <FaShoppingCart className="text-2xl" />,
+    title: "Smart POS & Inventory",
+    description:
+      "Integrated Point-of-Sale with inventory tracking, returns, and draft sales support.",
+    color: "bg-green-500",
+  },
+  {
+    icon: <FaWarehouse className="text-2xl" />,
+    title: "Purchase Workflow",
+    description:
+      "Seamless purchase orders with status tracking and supplier coordination.",
+    color: "bg-yellow-500",
+  },
+  {
+    icon: <FaCalculator className="text-2xl" />,
+    title: "Transactions & Journal Entries",
+    description:
+      "Automate journal entries and manage cash, transfers, and expense records with ease.",
+    color: "bg-purple-500",
+  },
+  {
+    icon: <FaReceipt className="text-2xl" />,
+    title: "Tax Automation",
+    description:
+      "Configure tax rules and generate reports for compliance and filing with zero hassle.",
+    color: "bg-red-500",
+  },
+  {
+    icon: <FaChartLine className="text-2xl" />,
+    title: "Financial Reports",
+    description:
+      "Real-time income statements, balance sheets, and trial balances tailored for growth.",
+    color: "bg-teal-500",
+  },
+];
+
+  const deploymentOptions = [
     {
-      icon: <FaFileInvoiceDollar className="text-3xl text-blue-600" />,
-      title: "Invoicing",
+      icon: <FaCloud className="text-4xl text-blue-600" />,
+      title: "Cloud Hosted",
       description:
-        "Create professional invoices, track payments, and send automatic reminders.",
+        "Fully managed cloud solution with automatic updates and backups",
+      features: ["99.9% Uptime", "Auto Scaling", "24/7 Support", "Global CDN"],
+      price: "Starting at GH₵ 200/month",
     },
     {
-      icon: <FaReceipt className="text-3xl text-green-600" />,
-      title: "Expense Tracking",
-      description:
-        "Capture receipts, categorize expenses, and monitor cash flow in real-time.",
-    },
-    {
-      icon: <FaChartLine className="text-3xl text-purple-600" />,
-      title: "Financial Reporting",
-      description:
-        "Generate balance sheets, profit & loss statements, and custom reports.",
-    },
-    {
-      icon: <FaUsers className="text-3xl text-orange-600" />,
-      title: "Client Management",
-      description:
-        "Manage customer and supplier details with integrated contact management.",
-    },
-    {
-      icon: <FaShoppingCart className="text-3xl text-red-600" />,
-      title: "Inventory Control",
-      description:
-        "Track stock levels, manage products, and automate reordering.",
-    },
-    {
-      icon: <FaMoneyBillWave className="text-3xl text-teal-600" />,
-      title: "Payroll Processing",
-      description:
-        "Calculate salaries, deductions, and generate payslips automatically.",
+      icon: <FaDesktop className="text-4xl text-green-600" />,
+      title: "Self Hosted",
+      description: "Deploy on your own infrastructure with complete control",
+      features: [
+        "Full Control",
+        "Custom Integrations",
+        "No Data Limits",
+        "One-time License",
+      ],
+      price: "Starting at GH₵ 7299 one-time",
     },
   ];
 
   const testimonials = [
     {
       name: "Isaac Baffour Awuah",
-      role: "Managing Director, Essential Anchor",
+      role: "Managing Director",
+      company: "Essential Anchor Ltd",
       quote:
-        "AptBooks has simplified my accounting process so much. I can now focus on growing my business instead of paperwork.",
-      avatar: "https://randomuser.me/api/portraits/men/44.jpg",
+        "AptBooks transformed our financial operations. The AI-powered insights helped us increase profit margins by 23%.",
+      avatar: "./audit.png",
+      rating: 5,
     },
     {
       name: "Constant Ekow Takyi",
-      role: "Cheif Executive Officer",
+      role: "CEO",
+      company: "Ryamex Ventures",
       quote:
-        "The invoicing and expense tracking features have saved me hours each week. Highly recommended for solopreneurs!",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+        "The self-hosted option gave us the security we needed while maintaining all the powerful features.",
+      avatar: "./constant.png",
+      rating: 5,
     },
     {
-      name: "George Mensah",
+      name: "Rosemond Asante",
       role: "Accounting Manager",
+      company: "Tech Solutions Ltd",
       quote:
-        "Our team switched to AptBooks last year and our month-end close process is now 40% faster with fewer errors.",
-      avatar: "https://randomuser.me/api/portraits/men/63.jpg",
+        "Our month-end process went from 5 days to just 4 hours. The automation is incredible.",
+      avatar: "./rose.jpg",
+      rating: 5,
     },
   ];
 
   return (
-    <div className="bg-gray-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block">Smart Accounting</span>
-                <span className="block text-blue-600">for Your Business</span>
-              </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                AptBooks simplifies accounting, invoicing, and expense tracking
-                so you can focus on what matters most - growing your business.
-              </p>
-              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-                  <Link
-                    to="https://app.ryamex.com"
-                    className="flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-8"
-                  >
-                    Start Free Trial
-                  </Link>
-                  <Link
-                    to="#"
-                    className="flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-8"
-                  >
-                    Watch Demo
-                  </Link>
-                </div>
-                <p className="mt-3 text-sm text-gray-500">
-                  No credit card required. Cancel anytime.
-                </p>
-              </div>
-            </div>
-            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <div className="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
-                <img
-                  className="w-full rounded-lg"
-                  src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                  alt="Dashboard preview"
-                />
-                <div className="absolute inset-0 bg-blue-600 opacity-10 rounded-lg"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="bg-white overflow-hidden">
+      {/* Floating Header */}
 
-      {/* Logo Cloud */}
-      <div className="bg-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
-            Trusted by businesses worldwide
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 pt-20 pb-92 text-center">
+          {" "}
+          {/* Increased bottom padding */}
+          <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-8">
+            <FaStar className="text-yellow-500" />
+            <span>Trusted by 50+ businesses across Ghana</span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-3 leading-tight">
+            Accounting Made
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+              Intelligent
+            </span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-6 max-w-3xl mx-auto leading-relaxed">
+            The first AI-powered accounting platform that thinks like your
+            accountant, works like your assistant, and scales like your
+            ambition.
           </p>
-          <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-3  lg:grid-cols-3">
-            <div className="col-span-1 flex justify-center">
-              <img
-                className="h-12 object-cover"
-                src="./logo-ess.png"
-                alt="Essential Anchor"
-              />
+          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
+            <a
+              href="https://app.aptbooks.com"
+              className="group bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+            >
+              <span>Start Free Trial</span>
+              <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </a>
+            <button
+              onClick={() => setShowDemoForm(true)}
+              className="group bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-50 transition-all duration-300 flex items-center space-x-2 shadow-lg border border-gray-200"
+            >
+              <FaPlay className="text-blue-600" />
+              <span>Watch Demo</span>
+            </button>
+          </div>
+          <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
+            <div className="flex items-center space-x-2">
+              <FaCheckCircle className="text-green-500" />
+              <span>14-day free trial</span>
             </div>
-            <div className="col-span-1 flex justify-center">
-              <img
-                className="h-12 object-cover"
-                src="./logo-rya.png"
-                alt="Ryamex Ventures"
-              />
+            <div className="flex items-center space-x-2">
+              <FaCheckCircle className="text-green-500" />
+              <span>No credit card required</span>
             </div>
-            <div className="col-span-1 flex justify-center">
-              <img className="h-12" src="./logo.png" alt="Hostella Ghana" />
+            <div className="flex items-center space-x-2">
+              <FaCheckCircle className="text-green-500" />
+              <span>Setup in 15 minutes</span>
             </div>
-            {/* <div className="col-span-1 flex justify-center">
-                    <img className="h-12" src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg" alt="Transistor" />
-                  </div>
-                  <div className="col-span-1 flex justify-center">
-                    <img className="h-12" src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg" alt="Workcation" />
-                  </div> */}
           </div>
         </div>
-      </div>
+
+        {/* Floating Dashboard Preview */}
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-4">
+          <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="flex space-x-2">
+                  <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                </div>
+                <div className="bg-white px-4 py-1 rounded-full text-sm text-gray-600">
+                  app.aptbooks.com
+                </div>
+              </div>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              alt="AptBooks Dashboard"
+              className="w-full h-64 object-cover"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Features Section */}
-      <div className="py-16 bg-gray-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">
-              Features
+      <section id="features" className="py-32 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Built for Modern Businesses
             </h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Everything you need to manage your finances
-            </p>
-            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-              AptBooks provides comprehensive accounting tools designed to save
-              you time and give you better financial insights.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Every feature designed with intelligence, simplicity, and your
+              success in mind
             </p>
           </div>
 
-          <div className="mt-16">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature, index) => (
-                <div key={index} className="pt-6">
-                  <div className="flow-root bg-white rounded-lg px-6 pb-8 h-full shadow">
-                    <div className="-mt-6">
-                      <div>
-                        <span className="inline-flex items-center justify-center p-3 bg-blue-500 rounded-md shadow-lg">
-                          {feature.icon}
-                        </span>
-                      </div>
-                      <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
-                        {feature.title}
-                      </h3>
-                      <p className="mt-5 text-base text-gray-500">
-                        {feature.description}
-                      </p>
-                    </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200"
+              >
+                <div
+                  className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300`}
+                >
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Deployment Options */}
+      <section id="deployment" className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Deploy Your Way
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Choose between cloud convenience or on-premise control. Same
+              powerful features, different deployment models.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            {deploymentOptions.map((option, index) => (
+              <div
+                key={index}
+                className="relative bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-300"
+              >
+                <div className="text-center mb-8">
+                  {option.icon}
+                  <h3 className="text-2xl font-bold text-gray-900 mt-4 mb-2">
+                    {option.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6">{option.description}</p>
+                  <div className="text-2xl font-bold text-blue-600">
+                    {option.price}
                   </div>
                 </div>
-              ))}
+
+                <div className="space-y-4">
+                  {option.features.map((feature, fIndex) => (
+                    <div key={fIndex} className="flex items-center space-x-3">
+                      <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                      <span className="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button className="w-full mt-8 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-full font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
+                  Get Started
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">50+</div>
+              <div className="text-blue-200">Active Businesses</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">₵50M+</div>
+              <div className="text-blue-200">Processed Monthly</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">99.9%</div>
+              <div className="text-blue-200">Uptime SLA</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">24/7</div>
+              <div className="text-blue-200">Expert Support</div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Product Screenshots */}
-      <div className="relative bg-white py-16 sm:py-24">
-        <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-24 lg:items-start">
-          <div className="relative sm:py-16 lg:py-0">
-            <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-20">
-              <div className="relative pt-64 pb-10 rounded-2xl shadow-xl overflow-hidden">
-                <img
-                  className="absolute inset-0 h-full w-full object-cover"
-                  src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                  alt="AptBooks Dashboard"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
-            <div className="pt-12 sm:pt-16 lg:pt-20">
-              <h2 className="text-3xl text-gray-900 font-extrabold tracking-tight sm:text-4xl">
-                Powerful yet simple financial management
-              </h2>
-              <div className="mt-6 text-gray-500 space-y-6">
-                <p className="text-lg">
-                  AptBooks combines powerful accounting features with an
-                  intuitive interface that makes financial management accessible
-                  to everyone.
-                </p>
-                <p className="text-base leading-7">
-                  Whether you're a freelancer, small business owner, or growing
-                  enterprise, our platform scales with your needs while keeping
-                  complexity at bay.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10">
-              <div className="grid grid-cols-2 gap-x-4 gap-y-8">
-                <div className="border-t-2 border-gray-100 pt-6">
-                  <p className="text-sm font-medium text-gray-500">Invoices</p>
-                  <p className="text-3xl font-extrabold tracking-tight text-blue-600">
-                    10,000+
-                  </p>
-                </div>
-
-                <div className="border-t-2 border-gray-100 pt-6">
-                  <p className="text-sm font-medium text-gray-500">
-                    Businesses
-                  </p>
-                  <p className="text-3xl font-extrabold tracking-tight text-blue-600">
-                    50+
-                  </p>
-                </div>
-
-                <div className="border-t-2 border-gray-100 pt-6">
-                  <p className="text-sm font-medium text-gray-500">Cities Across Ghana</p>
-                  <p className="text-3xl font-extrabold tracking-tight text-blue-600">
-                    50+
-                  </p>
-                </div>
-
-                <div className="border-t-2 border-gray-100 pt-6">
-                  <p className="text-sm font-medium text-gray-500">Support</p>
-                  <p className="text-3xl font-extrabold tracking-tight text-blue-600">
-                    24/7
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
 
       {/* Testimonials */}
-      <div className="bg-blue-600 py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-blue-200 font-semibold tracking-wide uppercase">
-              Testimonials
+      <section id="testimonials" className="py-32 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Loved by Finance Teams
             </h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-              Trusted by businesses of all sizes
+            <p className="text-xl text-gray-600">
+              See what business leaders are saying about AptBooks
             </p>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-white pt-10 pb-6 px-6 rounded-lg shadow-lg"
+                className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100"
               >
-                <div className="flex items-center">
-                  <img
-                    className="h-12 w-12 rounded-full"
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                  />
-                  <div className="ml-4">
-                    <h4 className="text-lg font-medium text-gray-900">
-                      {testimonial.name}
-                    </h4>
-                    <p className="text-blue-600">{testimonial.role}</p>
-                  </div>
+                <div className="flex items-center mb-6">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <FaStar key={i} className="text-yellow-400 text-lg" />
+                  ))}
                 </div>
-                <p className="mt-6 text-gray-600 italic">
+                <p className="text-gray-700 text-lg mb-6 italic">
                   "{testimonial.quote}"
                 </p>
-                <div className="mt-6 flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="h-5 w-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
+                <div className="flex items-center">
+                  <img
+                    src={testimonial.avatar}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full mr-4"
+                  />
+                  <div>
+                    <div className="font-semibold text-gray-900">
+                      {testimonial.name}
+                    </div>
+                    <div className="text-gray-600 text-sm">
+                      {testimonial.role}
+                    </div>
+                    <div className="text-blue-600 text-sm">
+                      {testimonial.company}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
-      <PricingSection />
-      {/* Mobile App CTA */}
-      <div className="bg-gray-50">
-        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 lg:grid lg:grid-cols-2 lg:gap-8">
-          <div>
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              <span className="block">Take AptBooks with you</span>
-              <span className="block text-blue-600">
-                Download our mobile app
-              </span>
-            </h2>
-            <p className="mt-4 text-lg text-gray-500">
-              Manage your finances on the go with our iOS and Android apps.
-              Create invoices, track expenses, and view reports from anywhere.
-            </p>
-            <div className="mt-8 flex">
-              <div className="mr-4 flex-shrink-0">
-                <Link
-                  to="#"
-                  className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800"
-                >
-                  <FaMobileAlt className="mr-2" />
-                  App Store
-                </Link>
-              </div>
-              <div className="flex-shrink-0">
-                <Link
-                  to="#"
-                  className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800"
-                >
-                  <FaMobileAlt className="mr-2" />
-                  Google Play
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="mt-12 lg:mt-0">
-            <div className="relative mx-auto w-full rounded-lg shadow-lg">
-              <img
-                className="w-full rounded-lg"
-                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                alt="Mobile app screenshot"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
 
-      {/* Cloud Hosting CTA */}
-      <div className="bg-white">
-        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
-          <div className="rounded-lg bg-blue-700 overflow-hidden shadow-xl lg:grid lg:grid-cols-2 lg:gap-4">
-            <div className="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
-              <div className="lg:self-center">
-                <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                  <span className="block">Ready to dive in?</span>
-                  <span className="block">Start your free trial today.</span>
-                </h2>
-                <p className="mt-4 text-lg leading-6 text-blue-200">
-                  No credit card required. Get started in minutes. Cancel
-                  anytime.
-                </p>
-                <Link
-                  to="https://app.ryamex.com"
-                  className="mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-blue-600 hover:bg-blue-50"
-                >
-                  Sign up for free
-                </Link>
-              </div>
-            </div>
-            <div className="-mt-6 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1">
-              <img
-                className="transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
-                src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80"
-                alt="App screenshot"
-              />
-            </div>
+      {/* CTA Section */}
+      <section className="py-32 bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8">
+            Ready to Transform Your Accounting?
+          </h2>
+          <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+            Join hundreds of businesses already using AptBooks to streamline
+            their financial operations.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <a
+              href="https://app.aptbooks.com"
+              className="bg-white text-blue-900 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center space-x-2 shadow-lg"
+            >
+              <span>Start Free Trial</span>
+              <FaArrowRight />
+            </a>
+            <button
+              onClick={() => setShowDemoForm(true)}
+              className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all duration-300"
+            >
+              Request Demo
+            </button>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Demo Form Modal */}
+      {showDemoForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 relative">
+            <button
+              onClick={() => setShowDemoForm(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            >
+              <FaTimes />
+            </button>
+
+            {!formSubmitted ? (
+              <>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                  Request a Demo
+                </h3>
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Full Name *"
+                    value={demoFormData.name}
+                    onChange={(e) =>
+                      setDemoFormData({ ...demoFormData, name: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                  <input
+                    type="email"
+                    placeholder="Business Email *"
+                    value={demoFormData.email}
+                    onChange={(e) =>
+                      setDemoFormData({
+                        ...demoFormData,
+                        email: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Company Name"
+                    value={demoFormData.company}
+                    onChange={(e) =>
+                      setDemoFormData({
+                        ...demoFormData,
+                        company: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    value={demoFormData.phone}
+                    onChange={(e) =>
+                      setDemoFormData({
+                        ...demoFormData,
+                        phone: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <textarea
+                    placeholder="Tell us about your business needs..."
+                    value={demoFormData.message}
+                    onChange={(e) =>
+                      setDemoFormData({
+                        ...demoFormData,
+                        message: e.target.value,
+                      })
+                    }
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                  >
+                    Send Demo Request
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  Request Sent!
+                </h3>
+                <p className="text-gray-600">
+                  We'll get back to you within 24 hours.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

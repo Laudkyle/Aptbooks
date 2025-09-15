@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../marrabap"
+		},
+		{
+			"path": "../subs"
 		}
 	],
 	"settings": {}

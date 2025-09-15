@@ -43,19 +43,19 @@ const AboutPage = () => {
     name: "Constant Ekow Takyi",
     role: "Head of Finance, Administration, and Business Development",
     bio: "Constant manages operations and ensures seamless execution across teams. His leadership ensures AptBooks delivers value through efficiency and strong market alignment.",
-    image: "https://randomuser.me/api/portraits/men/44.jpg"
+    image: "/constant.png"
   },
   {
     name: "Abraham Yiadom Boakye",
     role: "Chief Technology Officer",
     bio: "Abraham heads our engineering team, designing and maintaining the platform’s core systems. His expertise ensures AptBooks is secure, scalable, and developer-friendly.",
-    image: "ab.png"
+    image: "/ab.png"
   },
   {
     name: "Rosemond Asante Osei",
     role: "Customer Success",
     bio: "Rosemond supports users throughout their journey on AptBooks, providing training and troubleshooting. Her background in accounting helps customers unlock the platform’s full potential.",
-    image: "https://randomuser.me/api/portraits/women/63.jpg"
+    image: "./rose.jpg"
   }
 ];
 
@@ -202,7 +202,7 @@ const AboutPage = () => {
           <div className="mt-8 flex justify-center">
             <div className="inline-flex rounded-md shadow">
               <Link
-                to="https://app.ryamex.com"
+                to="https://app.aptbooks.com"
                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50"
               >
                 Start Free Trial
